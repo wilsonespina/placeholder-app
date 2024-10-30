@@ -20,14 +20,24 @@ export class PlaceholderComponent {
   textColor!: string;
   backgroundColor!: string;
   fontSize!: string;
+  colorId!: string | null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
+      console.log("🚀 ~ PlaceholderComponent ~ this.route.paramMap.subscribe ~ params:", params)
       this.dimensions = params.get('dimensions');
+
+      // go to 404 if not valid URL
       this.setAttributes({ dimensions: this.dimensions });
     });
+
+    console.log('>>>>> paramMap >>>>',this.route.snapshot.paramMap.get('dimensions'))
+
+    this.colorId = this.route.snapshot.queryParamMap.get('color') ?? null;
+    console.log("🚀 ~ PlaceholderComponent ~ ngOnInit ~ colorId:", this.colorId)
   }
 
   setAttributes({ dimensions }: ISetAttributes) {
